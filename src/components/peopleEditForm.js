@@ -7,13 +7,25 @@ class PeopleEditForm extends Component {
   constructor(props){
     super(props)
     this.state = {
+      id: this.props.id,
       name: this.props.name,
       favoriteCity: this.props.favoriteCity
     }
     this.handleChangeName = this.handleChangeName.bind(this)
     this.handleChangeFavoriteCity = this.handleChangeFavoriteCity.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
-    this.handleCancel = this.handleCancel.bind(this)
+    // this.handleCancel = this.handleCancel.bind(this)
+
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (this.props.id != nextProps.id) {
+      this.setState({
+        id: nextProps.id,
+        name: nextProps.name,
+        favoriteCity: nextProps.favoriteCity
+      });
+    }
   }
 
   handleChangeName(event){
@@ -41,13 +53,13 @@ class PeopleEditForm extends Component {
     )
   }
 
-  handleCancel(event){
-    event.preventDefault()
-    this.setState({
-      name: this.props.name,
-      favoriteCity: this.props.favoriteCity
-    })
-  }
+  // handleCancel(event){
+  //   event.preventDefault()
+  //   this.setState({
+  //     name: this.props.name,
+  //     favoriteCity: this.props.favoriteCity
+  //   })
+  // }
 
   render() {
     return(
@@ -78,8 +90,8 @@ class PeopleEditForm extends Component {
           <br/>
           <button type="submit">Confirm Edit</button>
         </form>
-        <button onClick={this.handleCancel}>Refresh Edit</button>
-        <p>refresh if changing person that you're editing</p>
+        {/* <button onClick={this.handleCancel}>Refresh Edit</button>
+        <p>refresh if changing person that you're editing</p> */}
       </div>
     )
   }
@@ -96,5 +108,6 @@ function mapStateToProps(state) {
 function mapDispatchToProps( dispatch ){
   return bindActionCreators({ editPerson }, dispatch)
 }
+
 
 export default connect(mapStateToProps, mapDispatchToProps)( PeopleEditForm )
